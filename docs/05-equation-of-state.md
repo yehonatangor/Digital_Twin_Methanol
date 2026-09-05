@@ -54,16 +54,13 @@ $$P = \frac{RT}{V_m - b} - \frac{a\,\alpha(T)}{V_m^2 + 2bV_m - b^2}$$
 
 ## Pure component parameters
 
-$$a = 0.45724\,\frac{R^2 T_c^2}{P_c}\,\alpha(T), \qquad b = 0.07780\,\frac{R T_c}{P_c}$$
+$$a = 0.45724\ \frac{R^2 T_c^2}{P_c}\ \alpha(T), \qquad b = 0.07780\ \frac{R T_c}{P_c}$$
 
 $$\alpha(T) = \left[1 + \kappa\left(1 - \sqrt{T/T_c}\right)\right]^2$$
 
 The $\kappa$ correlation depends on acentric factor, here the original 1976 form is not sufficient for this component set.
 
-$$\kappa = \begin{cases}
-0.37464 + 1.54226\,\omega - 0.26992\,\omega^2 & \omega \le 0.49 \\[4pt]
-0.379642 + 1.48503\,\omega - 0.164423\,\omega^2 + 0.016666\,\omega^3 & \omega > 0.49
-\end{cases}$$
+$$\kappa = \begin{cases} 0.37464 + 1.54226\,\omega - 0.26992\,\omega^2 & \omega \le 0.49 \\[4pt] 0.379642 + 1.48503\,\omega - 0.164423\,\omega^2 + 0.016666\,\omega^3 & \omega > 0.49 \end{cases}$$
 
 The upper branch is Robinson and Peng's own extension (GPA Research Report RR-28, 1978), published for heavier and more polar components than the 1976 correlation was regressed on.
 
