@@ -74,7 +74,6 @@ src/                                            48 library
   reactor/ front_end/ degradation/ integration/
   economics/ dispatch/ flowsheet/ sampling/
   main.cpp                                      end-to-end demo
-tools/                                          figure-data sweep, reproducible plots
 tests/                                          38 self-contained binaries, 1004 assertions
 docs/                                           25-chapter derivation of the entire mathematical apparatus
 ```
@@ -122,7 +121,7 @@ literature comparison alone does not catch:
 
 - The purge fraction is a citation, not a model result. Carbon monoxide leaves dissolved in the crude liquid, so the loop converges even at zero purge. The default takes Van-Dal's stated 1 %. A real plant needs a purge for inert ingress and catalyst poisons that are outside this model's scope.
 
-- The feasible operating region is not convex. At a 1 % purge the recycle loop converges at $\mathrm{H_2{:}CO_2}$ of 2.70 and 2.85 but not at 2.75 or 2.80, so no interval describes it. `validity::check_recycle_loop_before_solving` answers from the 35 measured nodes before a point is solved, and returns `Unmeasured` off-grid instead of interpolating across the gap. See `docs/figures/03-operating-envelope.svg`.
+- The feasible operating region is not convex. At a 1 % purge the recycle loop converges at $\mathrm{H_2{:}CO_2}$ of 2.70 and 2.85 but not at 2.75 or 2.80, so no interval describes it. `validity::check_recycle_loop_before_solving` answers from the 35 measured nodes before a point is solved, and returns `Unmeasured` off-grid instead of interpolating across the gap.
 
 - No heat-transfer coefficient is supplied anywhere. `U` and `UA` have no defaults because no source paper publishes one. Callers     must provide them.
 
