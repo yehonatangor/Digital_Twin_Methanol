@@ -123,7 +123,7 @@ literature comparison alone does not catch:
 
 - The feasible operating region is not convex. At a 1 % purge the recycle loop converges at $\mathrm{H_2{:}CO_2}$ of 2.70 and 2.85 but not at 2.75 or 2.80, so no interval describes it. `validity::check_recycle_loop_before_solving` answers from the 35 measured nodes before a point is solved, and returns `Unmeasured` off-grid instead of interpolating across the gap.
 
-- No heat-transfer coefficient is supplied anywhere. `U` and `UA` have no defaults because no source paper publishes one. Callers     must provide them.
+- No heat-transfer coefficient is supplied anywhere. `U` and `UA` have no defaults because no source paper publishes one. Callers must provide them.
 
 - Dispatch is a price-threshold heuristic, not a reproduction of any published scheduling optimisation, and its outputs are not compared against one.
 
