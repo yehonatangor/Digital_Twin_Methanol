@@ -1,5 +1,3 @@
-=how does this read me sound # methanol_twin
-
 A modular C++17 digital twin of a green methanol plant, built from first principles and grounded in primary literature.
 
 Two production routes are modelled end to end:
