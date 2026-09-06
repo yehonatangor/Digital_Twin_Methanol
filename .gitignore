@@ -1,0 +1,38 @@
+# Build output
+build/
+build_*/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+compile_commands.json
+CTestTestfile.cmake
+Testing/
+
+# Compiled artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+*.out
+
+# Test binaries built next to the sources
+test_*
+!tests/test_*.cpp
+
+# Generated profiles
+*.csv
+# ...except the committed figure data, which the figures and the feasibility
+# lookup in sampling/validity are both generated from.
+!docs/figures/*.csv
+
+# Editor and OS
+.vscode/
+.idea/
+.DS_Store
+
+# Source PDFs. Copyrighted; cited, never redistributed. See NOTICE.md.
+internal/References/
+
+# Local scratch, kept on disk but not published
+internal/scratch/
