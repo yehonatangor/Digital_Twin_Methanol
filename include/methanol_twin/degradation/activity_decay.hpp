@@ -35,10 +35,10 @@ struct ActivityDecayConfig {
 
   // Opt-in water acceleration. 1.0 means dry gas, which is what Table 4 was measured under
   double water_multiplier = 1.0;
-  bool   water_multiplier_sourced = false;
+  bool water_multiplier_sourced = false;
 };
 
-// [1/h]. Throws if T_K <= 0.
+// [1/h]. Throws if T_K <= 0
 double Kd_per_h(double T_K, const ActivityDecayConfig& cfg);
 
 // a(t) = [a0^(1-m) + (m-1) Kd t]^(1/(1-m)), constant Kd
@@ -89,13 +89,13 @@ ActivityDecayConfig fichtl_cza3_523_553K(); // Ea 50.893 kJ/mol, A 59.902 /h
 
 // Fichtl's 493 K CZA1 point, where the fitted order is 4 rather than 3
 // Kept standalone: folding it into the fits above would misrepresent a real order change as continuous
-// Valid only at 493 K.
+// Valid only at 493 K
 inline constexpr double kFichtlCza1Kd493K = 4.29e-3;  // [1/h]
 inline constexpr double kFichtlCza1M493K = 4.0;
 
 inline constexpr bool kFichtlWaterMultiplierSourced = false;
 
-// Industrial-timescale preset. 
+// Industrial-timescale preset
 // FORM sourced to Kordabadi & Jahanmiri (2007) Eq. (4), 5th order, attributed there to Hanken (1995) 
 // Kordabadi does not print Kd; it is back-solved from their Fig. 5 anchor below
 // Ed is not in Kordabadi either and Fichtl's CZA1 47.422 kJ/mol is used as a stated interim, flagged kIndustrialEdSourced = false
@@ -106,7 +106,7 @@ ActivityDecayConfig kordabadi_hanken_industrial();
 inline constexpr double kIndustrialAnchorActivity = 0.40;
 inline constexpr double kIndustrialAnchorDays = 1400.0;
 inline constexpr double kIndustrialAnchorTempK = 518.15; // 245 C
-inline constexpr bool   kIndustrialEdSourced = false; // awaiting Hanken
+inline constexpr bool kIndustrialEdSourced = false; // awaiting Hanken
 
 }
 
