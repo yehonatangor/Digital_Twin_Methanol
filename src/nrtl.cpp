@@ -4,14 +4,14 @@
 
 namespace nrtl {
 
-  // NRTL binaries from the ChemSep NRTL databank (Kooijman & Taylor, LGPL),
-  // stored as tau_ij = a_ij + b_ij/T with a symmetric alpha. Methanol/water is
-  // the only pair the databank holds for this species set; every other pair
-  // falls through to tau = 0, G = 1, an ideal-solution contribution.
+  // NRTL binaries from the ChemSep NRTL databank (Kooijman & Taylor, LGPL)
+  // Stored as tau_ij = a_ij + b_ij/T with a symmetric alpha
+  // Methanol/water is the only pair the databank holds for this species set 
+  // Every other pair falls through to tau = 0, G = 1, an ideal-solution contribution
   namespace {
 
     struct Entry {
-      Species i, j;          // parameters stored in this orientation
+      Species i, j; // parameters stored in this orientation
       BinaryParams p;
     };
 
@@ -22,7 +22,7 @@ namespace nrtl {
 
     const BinaryParams kIdeal{};
 
-    // `forward` reports whether the caller's (i,j) matches the stored order.
+    // `forward` reports whether the caller's (i,j) matches the stored order
     const Entry* findEntry(Species i, Species j, bool& forward) {
       for (const Entry& e : kBinaries) {
         if (e.i == i && e.j == j) { forward = true;  return &e; }
@@ -32,10 +32,10 @@ namespace nrtl {
       return nullptr;
     }
 
-  }  // namespace
+  }
 
   bool has_binary_params(Species i, Species j) {
-    if (i == j) return true;   // self-pair is ideal by definition, not missing
+    if (i == j) return true; // self-pair is ideal by definition, not missing
     bool fwd = false;
     return findEntry(i, j, fwd) != nullptr;
   }
@@ -56,7 +56,7 @@ namespace nrtl {
 
     bool fwd = false;
     const Entry* e = findEntry(i, j, fwd);
-    if (!e) return 0.00;   // unparameterised pair -> ideal contribution
+    if (!e) return 0.00; // unparameterised pair -> ideal contribution
 
     return fwd ? (e->p.a_ij + e->p.b_ij / T)
                : (e->p.a_ji + e->p.b_ji / T);

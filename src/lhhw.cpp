@@ -9,7 +9,7 @@ namespace lhhw {
     // k_i = A_i * exp(B_i / (R*T)), B in J/mol. Van-Dal & Bouallou (2013)
     // J. Cleaner Production 57, 38-45, Table 3. Rate forms are Vanden Bussche
     // & Froment (1996); these parameters are the Mignard & Pritchard (2008)
-    // refit Van-Dal Sec. 2.3.2 adopts, valid to 75 bar.
+    // refit Van-Dal Sec. 2.3.2 adopts, valid to 75 bar
     constexpr double A_K1 = 1.07;
     constexpr double A_K2 = 3453.38;
     constexpr double A_K3 = 0.499;
@@ -40,16 +40,15 @@ namespace lhhw {
     }
   }
 
-  // CO2 + 3H2 <-> CH3OH + H2O, bar^-2. Van-Dal Eq. (8), from Graaf et al.
-  // (1986), as printed. Partial pressures throughout this file are in bar.
+  // CO2 + 3H2 <-> CH3OH + H2O, bar^-2. Van-Dal Eq. (8), from Graaf et al. (1986), as printed
+  // Partial pressures throughout are in bar
   double Keq1(double T) {
     return std::pow(10.0, 3066.00/ T - 10.592);
   }
 
-  // Water-gas shift constant used in the RWGS driving force. Van-Dal Eq. (9)
-  // is printed with both signs inverted; the form here is Graaf's original,
-  // log10(K) = 2073/T - 2.029, which is the only one that makes Eq. (6)
-  // vanish at equilibrium. See docs/08.
+  // Water-gas shift constant used in the RWGS driving force. Van-Dal Eq. (9) is printed with both signs inverted
+  // The form here is Graaf's original, log10(K) = 2073/T - 2.029, which is the only one that makes Eq. (6) vanish at equilibrium
+  // See docs/08
   double Keq2(double T) {
     return std::pow(10.0, 2073.0 / T - 2.029);
   }

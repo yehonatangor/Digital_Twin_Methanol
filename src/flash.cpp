@@ -10,7 +10,7 @@ namespace flash {
 
   namespace {
 
-    constexpr double Regime_boundary_Pa = 10.0 * 1e5;   // gamma-phi below, phi-phi above
+    constexpr double Regime_boundary_Pa = 10.0 * 1e5; // gamma-phi below, phi-phi above
     constexpr int Max_outer_iter = 100;
     constexpr double K_tol = 1e-10;
     constexpr double Trivial_K_tol = 1e-8;
@@ -172,7 +172,7 @@ FlashResult solve(const Stream& feed, double T, double P, Regime regime) {
     result.converged = converged;
     result.single_phase = singlePhase;
 
-    // phi-phi does not consult NRTL, so the count stays zero there.
+    // phi-phi does not consult NRTL, so the count stays zero there
     if (regime == Regime::GammaPhi && !singlePhase) {
       result.ideal_binary_pairs = nrtl::unparameterised_pairs(result.liquid);
     }

@@ -12,18 +12,18 @@ constexpr double T_REF = 298.15;
 
 struct Formation { double dHf298; double S298; };
 
-// {dHf at 298.15 K [J/mol], S at 298.15 K [J/(mol K)]}, ideal gas.
-// NIST-JANAF / CRC Handbook.
+// {dHf at 298.15 K [J/mol], S at 298.15 K [J/(mol K)]}, ideal gas
+// NIST-JANAF / CRC Handbook
 constexpr Formation form[static_cast<size_t>(Species::Count)] = {
     {-393.51e3, 213.78}, // CO2
-    {   0.00,   130.68}, // H2
+    {0.00, 130.68}, // H2
     {-110.53e3, 197.66}, // CO
     {-241.83e3, 188.84}, // H2O (g)
     {-201.00e3, 239.90}, // CH3OH (g)
-    { -74.60e3, 186.25}, // CH4
-    {   0.00,   191.60}, // N2
-    {   0.00,   154.85}, // Ar
-    {   0.00,   205.15}, // O2
+    {-74.60e3, 186.25}, // CH4
+    {0.00, 191.60}, // N2
+    {0.00, 154.85}, // Ar
+    {0.00, 205.15}, // O2
 };
 
 constexpr double LN2 = 0.6931471805599453;
@@ -37,7 +37,7 @@ double lnCosh(double u) {
     return std::log(std::cosh(u));
 }
 
-constexpr double KMOL = 1000.0;   // DIPPR Cp is per kmol; results are per mol
+constexpr double KMOL = 1000.0; // DIPPR Cp is per kmol; results are per mol
 
 double sinhTerm(double c, double T) {
     if (c == 0.0) return 0.0;

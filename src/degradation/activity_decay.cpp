@@ -25,7 +25,7 @@ double activity_closed_form(double a0, double t_h, double Kd_per_h_value, double
     throw std::invalid_argument("activity_decay::activity_closed_form: Kd_per_h_value must be non-negative");
   }
   if (m == 1.0) {
-    // Degenerate case: da/a = -Kd dt.
+    // Degenerate case: da/a = -Kd dt
     return a0 * std::exp(-Kd_per_h_value * t_h);
   }
 
@@ -39,7 +39,7 @@ double activity_closed_form(double a0, double t_h, double Kd_per_h_value, double
 namespace {
 
 double rhs(double a, double Kd_per_h_value, double m) {
-  // da/dt = -Kd * a^m. Clamped so an RK4 undershoot cannot reach pow() with a negative base.
+  // da/dt = -Kd * a^m. Clamped so an RK4 undershoot cannot reach pow() with a negative base
   const double a_clamped = a > 0.0 ? a : 0.0;
   return -Kd_per_h_value * std::pow(a_clamped, m);
 }
@@ -148,7 +148,7 @@ ActivityDecayConfig kordabadi_hanken_industrial() {
   cfg.Ea_J_per_mol = 47421.558; // interim, Fichtl CZA1; Hanken's Ed unpublished
 
   // Pre-exponential calibrated: Kd inverted from the closed form at Kordabadi's anchor (a = 0.40 at 1400 days, 245 C) 
-  // then converted to A.
+  // then converted to A
   {
     const double t_anchor_h = presets::kIndustrialAnchorDays * 24.0;
     const double a = presets::kIndustrialAnchorActivity;

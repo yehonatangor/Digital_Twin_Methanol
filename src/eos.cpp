@@ -12,27 +12,25 @@ constexpr double PI = 3.1415926535897932;
 
 namespace {
 
-// Peng-Robinson kappa. The 1976 form is valid to omega ~ 0.49; methanol
-// (omega = 0.566) needs the 1978 branch.
+// Peng-Robinson kappa. The 1976 form is valid to omega ~ 0.49; methanol (omega = 0.566) needs the 1978 branch
 constexpr double kOmegaSwitch = 0.49;
 
 double kappaFromOmega(double omega){
   if (omega > kOmegaSwitch) {
-    // Robinson & Peng (1978), GPA RR-28.
+    // Robinson & Peng (1978), GPA RR-28
     return 0.379642 + omega * (1.48503 + omega * (-0.164423 + 0.016666 * omega));
   }
-  // Peng & Robinson (1976), Eq. (18).
+  // Peng & Robinson (1976), Eq. (18)
   return 0.37464 + 1.54226 * omega - 0.26992 * omega * omega;
 }
 
-// Depressed-cubic solver, t^3 + p t + q = 0 after the shift.
-//
-// The trigonometric branch is guarded against the degenerate case p = q = 0,
-// which a cubic with a triple root produces. There r = sqrt(-p^3/27) is -0,
-// -q/(2r) is 0/0 = NaN, and std::clamp does NOT sanitise NaN: both of its
-// comparisons are false, so the NaN is returned unchanged. acos then yields
-// NaN and cos raises FE_INVALID, which traps as SIGFPE in an unoptimised
-// build. Comparisons below are written so NaN takes the guarded branch.
+// Depressed-cubic solver, t^3 + p t + q = 0 after the shift
+
+// The trigonometric branch is guarded against the degenerate case p = q = 0, which a cubic with a triple root produces
+// There r = sqrt(-p^3/27) is -0, -q/(2r) is 0/0 = NaN, and std::clamp does NOT sanitise NaN: both of its comparisons are false
+// The NaN is returned unchanged 
+// acos then yields NaN and cos raises FE_INVALID, which traps as SIGFPE in an unoptimised build
+// Comparisons below are written so NaN takes the guarded branch
 std::vector<double> solveCubic(double c2, double c1, double c0){
   const double p = c1 - c2 * c2 / 3.00;
   const double q = (2.00 * c2 * c2 * c2) / 27.00 - (c2 * c1) / 3.00 + c0;
@@ -52,7 +50,7 @@ std::vector<double> solveCubic(double c2, double c1, double c0){
     double phi = 0.00;
     if (r > 0.00) {
       double t = -q / (2.00 * r);
-      if (!(t >= -1.00)) t = -1.00;        // also catches NaN
+      if (!(t >= -1.00)) t = -1.00; // also catches NaN
       else if (!(t <= 1.00)) t = 1.00;
       phi = std::acos(t);
     }
@@ -61,8 +59,7 @@ std::vector<double> solveCubic(double c2, double c1, double c0){
       roots.push_back(m * std::cos((phi + 2.00 * PI * k) / 3.00) - shift);
       }
   }
-  // A non-finite root is not a root. Dropping it here lets the caller's
-  // "no physical root" path report the failure instead of propagating NaN.
+  // A non-finite root is not a root. Dropping it here lets the caller's "no physical root" path report the failure
   roots.erase(std::remove_if(roots.begin(), roots.end(),
                              [](double z){ return !std::isfinite(z); }),
               roots.end());
@@ -79,9 +76,9 @@ double kij(Species i, Species j){
   const auto lo = static_cast<Species>(a);
   const auto hi = static_cast<Species>(b);
 
-  // ChemSep PR binary interaction databank (Kooijman & Taylor, LGPL). These
-  // are all 17 pairs it holds for this species set; anything else returns 0,
-  // the van der Waals one-fluid default.
+  // ChemSep PR binary interaction databank (Kooijman & Taylor, LGPL)
+  // These are all 17 pairs it holds for this species set; anything else returns 0
+  // The van der Waals one-fluid default
   struct Entry { Species lo, hi; double k; };
   static constexpr Entry table[] = {
     {Species::CO2, Species::H2, -0.16220},
