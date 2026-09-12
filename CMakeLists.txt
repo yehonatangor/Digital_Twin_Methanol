@@ -9,7 +9,11 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-add_compile_options(-Wall -Wextra)
+if(MSVC)
+  add_compile_options(/W4)
+else()
+  add_compile_options(-Wall -Wextra)
+endif()
 
 # Core library
 
@@ -210,6 +214,16 @@ endif()
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tools/operating_envelope.cpp)
   add_executable(operating_envelope tools/operating_envelope.cpp)
   target_link_libraries(operating_envelope PRIVATE methanol_twin_core)
+endif()
+
+# Optional Python extension. The standalone C++ build remains dependency-free.
+option(METHANOL_TWIN_BUILD_PYTHON "Build the pybind11 extension" OFF)
+if(METHANOL_TWIN_BUILD_PYTHON)
+  set(PYBIND11_FINDPYTHON ON)
+  find_package(pybind11 CONFIG REQUIRED)
+  pybind11_add_module(_core python/digital_twin/src/digital_twin/_bindings.cpp)
+  target_link_libraries(_core PRIVATE methanol_twin_core)
+  install(TARGETS _core LIBRARY DESTINATION digital_twin RUNTIME DESTINATION digital_twin)
 endif()
 
 # Usage:

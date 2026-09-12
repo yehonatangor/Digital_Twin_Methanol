@@ -1,0 +1,20 @@
+[project]
+name = "digital-twin"
+version = "0.1.0"
+description = "Python bindings for the C++ methanol plant digital twin"
+readme = "README.md"
+authors = [
+    { name = "ShawnGomez", email = "shawnmgomez@outlook.com" }
+]
+requires-python = ">=3.11"
+dependencies = []
+
+[build-system]
+requires = ["scikit-build-core>=0.10", "pybind11>=2.13"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+wheel.packages = ["src/digital_twin"]
+cmake.source-dir = "../.."
+cmake.define.METHANOL_TWIN_BUILD_PYTHON = true
+build.targets = ["_core"]

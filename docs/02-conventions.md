@@ -80,7 +80,7 @@ This is the natural basis because the rate expression is per kilogram of catalys
 
 Scaling happens at the flowsheet boundary:
 
-$$F_i^{\text{tube}} = \frac{F_i^{\text{plant}}}{n_{\text{tubes}}}, \qquad
+$$F_i^{\text{tube}} = \frac{F_i^{\text{plant}}}{n_{\text{tubes}}}, \qquad 
 F_i^{\text{plant, out}} = n_{\text{tubes}} \cdot F_i^{\text{tube, out}}$$
 
 Conversion, selectivity and temperature are ratios or intensive quantities, so they are the same on either basis and need no scaling.
