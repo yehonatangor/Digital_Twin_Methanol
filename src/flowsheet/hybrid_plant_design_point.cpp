@@ -10,7 +10,7 @@ namespace flowsheet {
 
 namespace {
 constexpr double kSecondsPerYear = 365.0 * 24.0 * 3600.0;
-}  // namespace
+}
 
 HybridPlantDesignPointResult evaluate_design_point(
     const std::vector<double>& price_USD_per_MWh_series,
@@ -51,9 +51,11 @@ HybridPlantDesignPointResult evaluate_design_point(
   chain_cfg.recycle_cfg.recycle_cfg.plant_cfg.reactor_inlet_T_K = cfg.reactor_inlet_T_K;
   chain_cfg.recycle_cfg.recycle_cfg.plant_cfg.reactor_inlet_P_bar = cfg.reactor_inlet_P_bar;
   chain_cfg.recycle_cfg.recycle_cfg.recycle_cfg.recycle_fraction = cfg.recycle_fraction;
+  chain_cfg.recycle_cfg.recycle_cfg.fresh_h2_to_co2_ratio = cfg.fresh_h2_to_co2_ratio;
   chain_cfg.distillation_cfg = cfg.distillation_cfg;
 
-  const double h2_kg_s = presets::stoichiometric_h2_feed_kg_s(cfg.co2_feed_kg_s);
+  const double h2_kg_s = presets::stoichiometric_h2_feed_kg_s(cfg.co2_feed_kg_s) *
+                         (cfg.fresh_h2_to_co2_ratio / 3.0);  // 3.0 = CO2 + 3 H2 stoich molar ratio
   const PurifiedRecycleLoopAgedResult aged =
       run_co2_h2_plant_recycle_purified_aged(cfg.co2_feed_kg_s, h2_kg_s, chain_cfg);
 

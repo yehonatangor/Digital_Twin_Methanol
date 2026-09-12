@@ -24,11 +24,16 @@ namespace flowsheet {
 
 struct HybridPlantDesignPointConfig {
   // The two swept variables, promoted to the top level
-  reactor::BedGeometry bed;          // n_tubes <= 1 selects the Van-Dal/Shi composite bed
-  double activity = 1.0;             // (0, 1], 1.0 being fresh catalyst
+  reactor::BedGeometry bed; // n_tubes <= 1 selects the Van-Dal/Shi composite bed
+  double activity = 1.0; // (0, 1], 1.0 being fresh catalyst
 
-  double co2_feed_kg_s = 0.0;        // fresh, steady-state design feed
-  double recycle_fraction = 0.70;    // see co2_h2_plant_recycle.hpp on the flux wall
+  double co2_feed_kg_s = 0.0; // fresh, steady-state design feed
+  double recycle_fraction = 0.70; // see co2_h2_plant_recycle.hpp on the flux wall
+
+  // Fresh makeup H2:CO2 molar ratio. Drives the recycle loop's FixedRatio policy
+  // Default matches RecycleLoopConfig (2.95, knee of the yield-vs-compression curve)
+  // Stoichiometric is 3.0; the loop consumes ~2.70
+  double fresh_h2_to_co2_ratio = 2.95;
 
   double reactor_inlet_T_K = 483.15;
   double reactor_inlet_P_bar = 78.0;
@@ -41,7 +46,7 @@ struct HybridPlantDesignPointConfig {
   double reactor_FM = 1.0;
   double reactor_FP = 1.0;
 
-  double electrolyzer_usd_per_kW = 1188.0;   // Lim Table 2, PEMEL 2020
+  double electrolyzer_usd_per_kW = 1188.0; // Lim Table 2, PEMEL 2020
   double we_stack_lifetime_years = 8.0;
   int    project_years = 20;
   int    cepci_target_year = 2016;
@@ -57,14 +62,14 @@ struct HybridPlantDesignPointResult {
   economics::PlantOpexResult annual_opex;
   economics::PlantEconomicsResult plant_economics;
 
-  reactor::BedGeometry bed_used;          // resolved bed, after the preset default
+  reactor::BedGeometry bed_used; // resolved bed, after the preset default
   double activity_used = 1.0;
 
   double co2_conversion_overall = 0.0;
-  double meoh_product_kg_s = 0.0;         // distillate, not crude
+  double meoh_product_kg_s = 0.0; // distillate, not crude
   double annual_production_t = 0.0;
   double unit_cost_USD_per_t = 0.0;
-  double total_electricity_MW = 0.0;      // compression plus dispatch average
+  double total_electricity_MW = 0.0; // compression plus dispatch average
 
   bool ok = false;
   std::string message;
