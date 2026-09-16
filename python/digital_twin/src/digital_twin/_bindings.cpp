@@ -3,7 +3,12 @@
 
 #include <string>
 #include <vector>
+#include <array>
+#include <cstddef>
+#include <stdexcept>
 
+#include "reactor/reactor_core.hpp"
+#include "species.hpp"
 #include "flowsheet/co2_h2_plant.hpp"
 #include "flowsheet/hybrid_plant_design_point_full.hpp"
 #include "sampling/feasibility.hpp"
@@ -29,7 +34,8 @@ py::dict evaluate_design_point_full(
     int n_trays,
     double electrolyzer_power_MW,
     double price_threshold_USD_per_MWh,
-    double initial_h2_kg) {
+    double initial_h2_kg,
+    bool include_reactor_profile) {
   if (tube_inner_diameter_m < 0.0 || bed_length_m < 0.0 || n_tubes < 0 || n_trays <= 0)
     throw py::value_error("geometry overrides must be non-negative and n_trays must be positive");
 
@@ -132,6 +138,53 @@ py::dict evaluate_design_point_full(
 
     row["unit_cost_base_USD_per_t"] = result.unit_cost_base_USD_per_t;
     row["unit_cost_full_USD_per_t"] = result.unit_cost_full_USD_per_t;
+
+
+    if (include_reactor_profile) {
+      const auto& reactor_result = result.base.reactor_chain.recycle.reactor;
+      const auto& profile = reactor_result.profile;
+
+      if (profile.empty()){
+        throw std::runtime_error(
+          "Plant solved but no reactor profile was recorded"
+        );
+      }
+
+      py::list species_names;
+      for (int i =0; i< static_cast<int>(Species::Count); ++i){
+        species_names.append(speciesName(static_cast<Species>(i)));
+      }
+
+      py::list profile_rows;
+
+      for (const auto& state : profile){
+        py::dict point;
+
+        point["W_kg"] = state.W_kg;
+        point["z_m"] = reactor::axial_position_m(
+          state.W_kg, result.base.bed_used
+        );
+
+        point["T_K"] = state.T_K;
+        point["P_bar"] = state.P_Pa / 100000.0;
+
+        const auto fractions = state.mole_fractions();
+        py::list y;
+
+        for (std::size_t i = 0; i < fractions.size(); ++i){
+          y.append(fractions[i]);
+        }
+
+        point["mole_fractions"] = y;
+
+        profile_rows.append(point);
+      }
+
+      row["reactor_species"] = species_names;
+      row["reactor_profile"] = profile_rows;
+
+    }
+
   }
   return row;
 }
@@ -157,6 +210,7 @@ PYBIND11_MODULE(_core, module) {
              py::arg("electrolyzer_power_MW") = 2.0,
              py::arg("price_threshold_USD_per_MWh") = 40.0,
              py::arg("initial_h2_kg") = 0.0,
+             py::arg("include_reactor_profile") = false,
              "Evaluate one steady-state plant design point. Failed solves return diagnostics without performance targets.");
   module.def("model_fingerprint", &fingerprint::hex_hash,
              "Return the compiled model-constant fingerprint.");
