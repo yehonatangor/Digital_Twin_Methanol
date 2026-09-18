@@ -1,0 +1,160 @@
+{
+  "provenance": {
+    "fingerprint": {
+      "fp_hex": "3c18322b992a82fd",
+      "fp_thermo": 0,
+      "fp_kinetics": 0,
+      "fp_transport": 0,
+      "fp_phase": 0,
+      "fp_numerics": 0
+    },
+    "design_space": [
+      {
+        "name": "n_tubes",
+        "lo": 1000,
+        "hi": 3000,
+        "kind": "integer",
+        "provenance": "studied",
+        "unit": "-",
+        "source": "",
+        "config_path": "base_cfg.bed.n_tubes",
+        "log_scale": false
+      },
+      {
+        "name": "tube_inner_diameter_m",
+        "lo": 0.03,
+        "hi": 0.05,
+        "kind": "continuous",
+        "provenance": "studied",
+        "unit": "m",
+        "source": "",
+        "config_path": "base_cfg.bed.tube_inner_diameter_m",
+        "log_scale": false
+      },
+      {
+        "name": "bed_length_m",
+        "lo": 5.0,
+        "hi": 9.0,
+        "kind": "continuous",
+        "provenance": "studied",
+        "unit": "m",
+        "source": "",
+        "config_path": "base_cfg.bed.bed_length_m",
+        "log_scale": false
+      },
+      {
+        "name": "reactor_inlet_T_K",
+        "lo": 473.15,
+        "hi": 545.0,
+        "kind": "continuous",
+        "provenance": "studied",
+        "unit": "K",
+        "source": "temperature window not sourced",
+        "config_path": "base_cfg.reactor_inlet_T_K",
+        "log_scale": false
+      },
+      {
+        "name": "reactor_inlet_P_bar",
+        "lo": 50.0,
+        "hi": 90.0,
+        "kind": "continuous",
+        "provenance": "sourced",
+        "unit": "bar",
+        "source": "Van-Dal & Bouallou (2013) Sec. 2.3.2 (Mignard & Pritchard 2008 refit)",
+        "config_path": "base_cfg.reactor_inlet_P_bar",
+        "log_scale": false
+      },
+      {
+        "name": "recycle_fraction",
+        "lo": 0.6,
+        "hi": 0.97,
+        "kind": "continuous",
+        "provenance": "studied",
+        "unit": "-",
+        "source": "",
+        "config_path": "base_cfg.recycle_fraction",
+        "log_scale": false
+      },
+      {
+        "name": "co2_feed_kg_s",
+        "lo": 0.5,
+        "hi": 1.5,
+        "kind": "continuous",
+        "provenance": "studied",
+        "unit": "kg/s",
+        "source": "",
+        "config_path": "base_cfg.co2_feed_kg_s",
+        "log_scale": false
+      },
+      {
+        "name": "fresh_h2_to_co2_ratio",
+        "lo": 2.4,
+        "hi": 3.0,
+        "kind": "continuous",
+        "provenance": "studied",
+        "unit": "-",
+        "source": "feasible set non-convex",
+        "config_path": "base_cfg.fresh_h2_to_co2_ratio",
+        "log_scale": false
+      },
+      {
+        "name": "activity",
+        "lo": 0.35,
+        "hi": 1.0,
+        "kind": "continuous",
+        "provenance": "studied",
+        "unit": "-",
+        "source": "",
+        "config_path": "base_cfg.activity",
+        "log_scale": false
+      },
+      {
+        "name": "total_stages",
+        "lo": 40,
+        "hi": 70,
+        "kind": "integer",
+        "provenance": "studied",
+        "unit": "-",
+        "source": "",
+        "config_path": "column_cfg.total_stages",
+        "log_scale": false
+      },
+      {
+        "name": "h2_storage_volume",
+        "lo": 250.0,
+        "hi": 750.0,
+        "kind": "continuous",
+        "provenance": "studied",
+        "unit": "m3",
+        "source": "",
+        "config_path": "base_cfg.dispatch_cfg.storage.V_m3",
+        "log_scale": false
+      }
+    ],
+    "feature_names": [
+      "n_tubes",
+      "tube_inner_diameter_m",
+      "bed_length_m",
+      "reactor_inlet_T_K",
+      "reactor_inlet_P_bar",
+      "recycle_fraction",
+      "co2_feed_kg_s",
+      "fresh_h2_to_co2_ratio",
+      "activity",
+      "total_stages",
+      "h2_storage_volume"
+    ],
+    "target_names": [
+      "unit_cost_USD_per_t",
+      "co2_conversion_overall",
+      "meoh_product_kg_s",
+      "annual_production_t",
+      "total_electricity_MW"
+    ],
+    "sample_method": "lhs",
+    "seed": 0,
+    "n_written": 6000,
+    "created_utc": "2026-09-16T02:00:38.436190+00:00",
+    "contract_hash": "630c6228ad804e2f"
+  }
+}

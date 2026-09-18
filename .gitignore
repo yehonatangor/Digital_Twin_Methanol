@@ -36,3 +36,10 @@ internal/References/
 
 # Local scratch, kept on disk but not published
 internal/scratch/
+
+# Python artifacts
+__pycache__/
+*.pyc
+.venv/
+venv/
+
